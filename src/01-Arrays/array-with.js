@@ -1,45 +1,53 @@
-/**
- * Los objetos en JavaScript se asignan por referencia,
- * por lo que al copiar un array de objetos, se copia la referencia
- * y no una copia independiente de los objetos.
- */
-
-const superHeroes = [
+const state = [
     {
     id: 1,
     name: 'Batman'
-}, 
-{
-    id: 2,
-    name: 'Superman'
-}, 
-{
-    id: 3,
-    name: 'Flash'
-},
-{
-    id: 4,
-    name: 'Aquaman'
-}
+    }, 
+    {
+        id: 2,
+        name: 'Superman'
+    }, 
+    {
+        id: 3,
+        name: 'Flash'
+    },
+    {
+        id: 4,
+        name: 'Aquaman'
+    }
 ];
 
-const superHeroesCopy = [ ...superHeroes ];
+const index = 1;
+const newName = 'Green Lantern';
+
 /**
- * Se usa el map para crear un nuevo array de objetos independientes
- * usando el spread operator para copiar cada objeto.
- * !No se recomienda usarlo porque es menos eficiente cuando el objeto tiene 
- * !objetos anidados.
- * 
+ *Metodo antiguo para actualizar un elemento en un array
  */
-const superHeroesCopy1 = [ ...superHeroes.map(x => ({...x})) ];
+const newState = state.map((x, i) => {
+    if(i == index){
+        x.name = newName;
+    }
+    return {...x};
+})
 
-superHeroesCopy[0].name = 'Wonder Woman';
+console.table(newState);
 
-console.table( superHeroes );
-console.table( superHeroesCopy );
-console.table( superHeroesCopy1 );
+/**
+ * Array With -> Metodo moderno para actualizar un elemento en un array
+ */
 
-//!Structured Clone
-const superHeroesCopy2 = structuredClone( superHeroes );
-superHeroesCopy2[0].name = 'Green Lantern';
-console.table( superHeroesCopy2 );
+const newStateWith = state.with(index, {
+    id: 100,
+    name: newName
+});
+
+console.table(newStateWith);
+
+/**
+ * at: Metodo moderno para acceder a un elemento en un array
+ */
+
+const firstElement = state.at(0);
+const lastElement = state.at(-1);
+
+console.log({firstElement, lastElement});
